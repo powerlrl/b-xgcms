@@ -8,8 +8,30 @@
     <div class="form-right">
       <h2>登录</h2>
       <span>请使用账号密码登录</span>
-      <el-input type="text"></el-input>
-      <el-input type="password"></el-input>
+      <div class="inputBox">
+        <div class="username">
+          <el-input
+            type="text"
+            placeholder="账号"
+            suffix-icon="el-icon-s-custom"
+          ></el-input>
+        </div>
+        <div class="password">
+          <el-input
+            type="password"
+            placeholder="密码"
+            suffix-icon="el-icon-view"
+          ></el-input>
+        </div>
+      </div>
+      <div class="radio-group">
+        <el-radio-group v-model="radio">
+          <el-radio :label="3">管理员</el-radio>
+          <el-radio :label="6">学生</el-radio>
+          <el-radio :label="9">教师</el-radio>
+        </el-radio-group>
+      </div>
+      <el-button class="login-btn">登录</el-button>
     </div>
   </div>
 </template>
@@ -35,5 +57,28 @@ export default {};
 }
 .form-left p {
   font-size: 13px;
+}
+.form-right {
+  box-sizing: border-box;
+  /* padding: 30px; */
+  text-align: center;
+  margin-left: 25px;
+}
+/* 右边的部分 */
+.form-right,
+.username,
+.password {
+  margin-top: 20px;
+  width: 270px;
+}
+.radio-group {
+  margin-top: 30px;
+}
+.login-btn {
+  border-radius: 10px;
+  width: 200px;
+  color: #fff;
+  background: #fe492a;
+  margin-top: 20px;
 }
 </style>

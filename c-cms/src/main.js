@@ -12,6 +12,8 @@ Vue.use(ElementUI)
 // 挂载全局css样式重置文件
 import 'assets/styles/reset.css'
 import 'assets/styles/common.css'
+// 引入scss
+// import '@/styles/index.scss'
 
 Vue.config.productionTip = false
 

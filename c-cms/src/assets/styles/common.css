@@ -19,3 +19,9 @@
 .ai-end {
   align-items: flex-end;
 }
+.fd-c {
+  flex-direction: column;
+}
+.bs-b {
+  box-sizing: border-box;
+}
