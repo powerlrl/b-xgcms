@@ -5,39 +5,77 @@
       <h2>Welcom Back!</h2>
       <p>校园疫情物资管理调度平台</p>
     </div>
-    <div class="form-right">
+    <el-form
+      :model="loginForm"
+      ref="loginRef"
+      :rules="loginRules"
+      class="form-right"
+    >
       <h2>登录</h2>
       <span>请使用账号密码登录</span>
       <div class="inputBox">
-        <div class="username">
+        <el-form-item prop="username" class="username">
           <el-input
             type="text"
             placeholder="账号"
+            v-model="loginForm.username"
             suffix-icon="el-icon-s-custom"
           ></el-input>
-        </div>
-        <div class="password">
+        </el-form-item>
+        <el-form-item prop="password" class="password">
           <el-input
             type="password"
             placeholder="密码"
+            v-model="loginForm.password"
             suffix-icon="el-icon-view"
           ></el-input>
-        </div>
+        </el-form-item>
       </div>
-      <div class="radio-group">
-        <el-radio-group v-model="radio">
+      <el-form-item class="radio-group">
+        <el-radio-group v-model="loginForm.radio">
           <el-radio :label="3">管理员</el-radio>
           <el-radio :label="6">学生</el-radio>
           <el-radio :label="9">教师</el-radio>
         </el-radio-group>
-      </div>
-      <el-button class="login-btn">登录</el-button>
-    </div>
+      </el-form-item>
+      <el-button class="login-btn" @click="submitLogin('loginRef')"
+        >登录</el-button
+      >
+    </el-form>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      loginForm: {
+        username: "",
+        password: "",
+        radio: 3,
+      },
+      loginRules: {
+        username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+      },
+    };
+  },
+  methods: {
+    submitLogin(formName) {
+      console.log(this.$refs[formName])
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert("submit!");
+          // 登录成功发生跳转
+          this.$router.push('/home')
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
