@@ -5,7 +5,7 @@
         <nav-bar />
       </el-aside>
       <el-main>
-        <main-home />
+        <router-view></router-view>
       </el-main>
     </el-container>
   </div>
@@ -13,12 +13,12 @@
 
 <script>
 import NavBar from "@/components/NavBar";
-import MainHome from "@/components/MainHome";
+// import MainHome from "@/components/MainHome";
 
 export default {
   components: {
     NavBar,
-    MainHome,
+    // MainHome,
   },
 };
 </script>
