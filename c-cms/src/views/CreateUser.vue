@@ -87,26 +87,36 @@
       width="30%"
       :before-close="handleCloseDialog"
     >
-      <el-form ref="addForm" :model="addForm" label-width="auto" label-position="left">
-        <el-form-item label="姓名:">
+      <el-form
+        ref="addForm"
+        :model="addForm"
+        label-width="auto"
+        label-position="left"
+        :rules="addRules"
+      >
+        <el-form-item label="姓名:" prop="name">
           <el-input v-model="addForm.name" size="mini"></el-input>
         </el-form-item>
-        <el-form-item label="密码:">
+        <el-form-item label="密码:" prop="password">
           <el-input v-model="addForm.password" size="mini"></el-input>
         </el-form-item>
-        <el-form-item label="性别:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
+        <el-form-item label="性别:" prop="sex">
+          <el-input v-model="addForm.sex" size="mini"></el-input>
         </el-form-item>
-        <el-form-item label="手机号:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
+        <el-form-item label="手机号:" prop="phone">
+          <el-input
+            v-model="addForm.phone"
+            size="mini"
+            maxlength="11"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="人员类型:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
+        <el-form-item label="人员类型:" prop="type">
+          <el-input v-model="addForm.type" size="mini"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false" size="mini"
+        <el-button type="primary" @click="submitAddForm('addForm')" size="mini"
           >确 定</el-button
         >
       </span>
@@ -118,7 +128,13 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      addForm: {},
+      addForm: {
+        name: "",
+        password: "",
+        sex: "",
+        phone: "",
+        type: ""
+      },
       tableData: [
         {
           username: "yo1",
@@ -148,7 +164,29 @@ export default {
           phone: 1398939384,
           usertype: "管理员"
         }
-      ]
+      ],
+      addRules: {
+        name: [
+          { required: true, message: "请输入用户名称", trigger: "blur" },
+          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+        ],
+        sex: [
+          { required: true, message: "请输入性别", trigger: "blur" },
+          { min: 1, max: 1, message: "长度在 2 到 7 个字符", trigger: "blur" }
+        ],
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          { message: "长度在 2 到 7 个字符", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "请输入人员类型", trigger: "blur" },
+          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+        ]
+      }
     };
   },
   methods: {
@@ -159,12 +197,33 @@ export default {
       console.log(index, row);
     },
     addUser() {
-      this.dialogVisible = true
+      this.dialogVisible = true;
       // console.log("添加人员")
     },
     handleCloseDialog() {
-      this.dialogVisible = false
+      this.dialogVisible = false;
     },
+    submitAddForm(form) {
+      // this.dialogVisible = false
+      this.$refs[form].validate(valid => {
+        if (valid) {
+          alert("submit");
+          this.dialogVisible = false
+        } else {
+          const h = this.$createElement;
+
+          this.$notify({
+            title: "Tips",
+            message: h(
+              "i",
+              { style: "color: teal" },
+              "请检查提交信息是否符合规范"
+            )
+          });
+          return false;
+        }
+      });
+    }
   }
 };
 </script>
