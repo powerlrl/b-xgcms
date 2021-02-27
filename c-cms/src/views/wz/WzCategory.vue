@@ -82,31 +82,19 @@
 
     <!-- 弹出模态框 -->
     <el-dialog
-      title="添加人员信息"
+      title="提示"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleCloseDialog"
     >
-      <el-form ref="addForm" :model="addForm" label-width="auto" label-position="left">
+      <el-form ref="addForm" :model="addForm" label-width="80px">
         <el-form-item label="姓名:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="密码:">
-          <el-input v-model="addForm.password" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="性别:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="人员类型:">
-          <el-input v-model="addForm.name" size="mini"></el-input>
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false" size="mini"
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
           >确 定</el-button
         >
       </span>
@@ -159,12 +147,12 @@ export default {
       console.log(index, row);
     },
     addUser() {
-      this.dialogVisible = true
+      this.dialogVisible = true;
       // console.log("添加人员")
     },
     handleCloseDialog() {
-      this.dialogVisible = false
-    },
+      this.dialogVisible = false;
+    }
   }
 };
 </script>

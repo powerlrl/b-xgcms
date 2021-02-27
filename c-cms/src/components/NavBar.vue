@@ -5,6 +5,7 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
+      @select="handleSelect"
     >
       <el-submenu index="1">
         <template slot="title">
@@ -12,8 +13,8 @@
           <span>人员管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+          <el-menu-item index="1-1">人员信息</el-menu-item>
+          <!-- <el-menu-item index="1-2">选项2</el-menu-item> -->
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="2">
@@ -33,6 +34,9 @@ export default {
   methods: {
     handleOpen() {},
     handleClose() {},
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath)
+    },
   },
 };
 </script>
