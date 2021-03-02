@@ -1,7 +1,7 @@
 <template>
   <div class="create-category">
     <!-- 表格部分 -->
-    <div style="margin-top: 30px; text-align: right">
+    <div style="margin-top: 10px; text-align: right">
       <el-button size="mini" type="primary" @click="addCategory">添加物资</el-button>
     </div>
     <div class="c-container">
@@ -141,7 +141,7 @@ export default {
   color: #555555;
 }
 .c-container {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .paginatioin {
   margin-top: 30px;

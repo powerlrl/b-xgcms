@@ -13,6 +13,15 @@ Vue.use(ElementUI)
 import 'assets/styles/reset.css'
 import 'assets/styles/common.css'
 
+// 使用echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
+// 使用axios
+import { http } from './http.js'
+Vue.prototype.$http = http
+
+
 Vue.config.productionTip = false
 
 new Vue({

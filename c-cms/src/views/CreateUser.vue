@@ -15,24 +15,20 @@
           </div>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" icon="el-icon-search" size="small"
-            >搜索</el-button
-          >
+          <el-button type="primary" icon="el-icon-search" size="small">搜索</el-button>
         </el-col>
       </el-row>
     </div>
     <!-- 表格部分 -->
-    <div style="margin-top: 30px; text-align: right">
-      <el-button size="mini" type="primary" @click="addUser"
-        >添加人员</el-button
-      >
+    <div style="margin-top: 10px; text-align: right">
+      <el-button size="mini" type="primary" @click="addUser">添加人员</el-button>
     </div>
     <div class="c-container">
       <el-table
         :data="tableData"
         style="width: 100%"
-        :cell-style="{ textAlign: 'center' }"
-        :header-cell-style="{ background: '#fafafa', textAlign: 'center' }"
+        :cell-style="{textAlign: 'center'}"
+        :header-cell-style="{background: '#fafafa', textAlign: 'center'}"
       >
         <el-table-column label="用户名" width="200">
           <template slot-scope="scope">
@@ -61,39 +57,20 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="paginatioin">
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
       </div>
     </div>
 
-    <!-- 弹出模态框 -->
-    <el-dialog
-      title="添加人员信息"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleCloseDialog"
-    >
-      <el-form
-        ref="addForm"
-        :model="addForm"
-        label-width="auto"
-        label-position="left"
-        :rules="addRules"
-      >
+    <!-- 添加人员模态框 -->
+    <el-dialog title="添加人员信息" :visible.sync="dialogVisible" width="30%" :before-close="handleCloseDialog">
+      <el-form ref="addForm" :model="addForm" label-width="auto" label-position="left" :rules="addRules">
         <el-form-item label="姓名:" prop="name">
           <el-input v-model="addForm.name" size="mini"></el-input>
         </el-form-item>
@@ -104,11 +81,7 @@
           <el-input v-model="addForm.sex" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="手机号:" prop="phone">
-          <el-input
-            v-model="addForm.phone"
-            size="mini"
-            maxlength="11"
-          ></el-input>
+          <el-input v-model="addForm.phone" size="mini" maxlength="11"></el-input>
         </el-form-item>
         <el-form-item label="人员类型:" prop="type">
           <el-input v-model="addForm.type" size="mini"></el-input>
@@ -116,9 +89,32 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submitAddForm('addForm')" size="mini"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitAddForm('addForm')" size="mini">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑人员信息模态框 -->
+    <el-dialog title="编辑人员信息" :visible.sync="dialogVisibleEdit" width="30%" :before-close="handleCloseEdit">
+      <el-form ref="editForm" :model="editForm" label-width="auto" label-position="left" :rules="editRules">
+        <el-form-item label="姓名:" prop="name">
+          <el-input v-model="editForm.name" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="密码:" prop="password">
+          <el-input v-model="editForm.password" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="性别:" prop="sex">
+          <el-input v-model="editForm.sex" size="mini"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号:" prop="phone">
+          <el-input v-model="editForm.phone" size="mini" maxlength="11"></el-input>
+        </el-form-item>
+        <el-form-item label="人员类型:" prop="type">
+          <el-input v-model="editForm.type" size="mini"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleEdit = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submitEditForm('editForm')" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -167,33 +163,81 @@ export default {
       ],
       addRules: {
         name: [
-          { required: true, message: "请输入用户名称", trigger: "blur" },
-          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+          {required: true, message: "请输入用户名称", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+          {required: true, message: "请输入密码", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
         ],
         sex: [
-          { required: true, message: "请输入性别", trigger: "blur" },
-          { min: 1, max: 1, message: "长度在 2 到 7 个字符", trigger: "blur" }
+          {required: true, message: "请输入性别", trigger: "blur"},
+          {min: 1, max: 1, message: "长度在 2 到 7 个字符", trigger: "blur"}
         ],
         phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { message: "长度在 2 到 7 个字符", trigger: "blur" }
+          {required: true, message: "请输入手机号", trigger: "blur"},
+          {message: "长度在 2 到 7 个字符", trigger: "blur"}
         ],
         type: [
-          { required: true, message: "请输入人员类型", trigger: "blur" },
-          { min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur" }
+          {required: true, message: "请输入人员类型", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
         ]
-      }
+      },
+      dialogVisibleEdit: false,
+      editForm: {
+        name: "",
+        password: "",
+        sex: "",
+        phone: "",
+        type: ""
+      },
+      editRules: {
+        name: [
+          {required: true, message: "请输入用户名称", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
+        ],
+        password: [
+          {required: true, message: "请输入密码", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
+        ],
+        sex: [
+          {required: true, message: "请输入性别", trigger: "blur"},
+          {min: 1, max: 1, message: "长度在 2 到 7 个字符", trigger: "blur"}
+        ],
+        phone: [
+          {required: true, message: "请输入手机号", trigger: "blur"},
+          {message: "长度在 2 到 7 个字符", trigger: "blur"}
+        ],
+        type: [
+          {required: true, message: "请输入人员类型", trigger: "blur"},
+          {min: 2, max: 7, message: "长度在 2 到 7 个字符", trigger: "blur"}
+        ]
+      },
     };
   },
   methods: {
     handleEdit(index, row) {
+      this.dialogVisibleEdit = true
       console.log(index, row);
     },
     handleDelete(index, row) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
       console.log(index, row);
     },
     addUser() {
@@ -203,27 +247,59 @@ export default {
     handleCloseDialog() {
       this.dialogVisible = false;
     },
-    submitAddForm(form) {
-      // this.dialogVisible = false
+    handleValidate(){
       this.$refs[form].validate(valid => {
         if (valid) {
           alert("submit");
-          this.dialogVisible = false
+          this.dialogVisible = false;
         } else {
           const h = this.$createElement;
-
           this.$notify({
             title: "Tips",
-            message: h(
-              "i",
-              { style: "color: teal" },
-              "请检查提交信息是否符合规范"
-            )
+            message: h("i", {style: "color: teal"}, "请检查提交信息是否符合规范")
           });
           return false;
         }
       });
-    }
+    },
+    submitAddForm(form) {
+      
+      // this.handleValidate(form)
+      this.$refs[form].validate(valid => {
+        if (valid) {
+          alert("submit");
+          this.dialogVisible = false;
+        } else {
+          const h = this.$createElement;
+          this.$notify({
+            title: "Tips",
+            message: h("i", {style: "color: teal"}, "请检查提交信息是否符合规范")
+          });
+          return false;
+        }
+      });
+    },
+    submitEditForm(form) {
+      // console.log(form)
+      this.$refs[form].validate(valid => {
+        if (valid) {
+          alert("submit");
+          this.dialogVisibleEdit = false;
+        } else {
+          const h = this.$createElement;
+          this.$notify({
+            title: "Tips",
+            message: h("i", {style: "color: teal"}, "请检查提交信息是否符合规范")
+          });
+          return false;
+        }
+      });
+    },
+
+    // 编辑
+    handleCloseEdit() {
+      this.dialogVisibleEdit = false
+    },
   }
 };
 </script>
@@ -235,7 +311,7 @@ export default {
   color: #555555;
 }
 .c-container {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .paginatioin {
   margin-top: 30px;
