@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/common/Login.vue'
 import Home from 'views/Home.vue'
-import CreateUser from 'views/CreateUser'
 import MainHome from 'views/MainHome'
+import CreateUser from 'views/CreateUser'
+import WzCategory from 'views/wz/WzCategory'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,7 +23,11 @@ const routes = [
       {
         path: 'createUser',
         component: CreateUser,
-      }
+      },
+      {
+        path: 'wzCategory',
+        component: WzCategory
+      },
     ],
   }
   

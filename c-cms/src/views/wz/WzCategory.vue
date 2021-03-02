@@ -1,102 +1,60 @@
 <template>
-  <div class="create-user">
-    <div class="c-serach-bar">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div class="grid-content bg-purple d-flex">
-            <div style="width: 100px;" class="search-item">用户名:</div>
-            <el-input type="text" size="small" placeholder="请输入用户名" />
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple d-flex">
-            <div style="width: 120px;" class="search-item">人员类型：</div>
-            <el-input type="text" size="small" placeholder="请选择人员的类型" />
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <el-button type="primary" icon="el-icon-search" size="small"
-            >搜索</el-button
-          >
-        </el-col>
-      </el-row>
-    </div>
+  <div class="create-category">
     <!-- 表格部分 -->
     <div style="margin-top: 30px; text-align: right">
-      <el-button size="mini" type="primary" @click="addUser"
-        >添加人员</el-button
-      >
+      <el-button size="mini" type="primary" @click="addCategory">添加物资</el-button>
     </div>
     <div class="c-container">
       <el-table
-        :data="tableData"
+        :data="categories"
         style="width: 100%"
-        :cell-style="{ textAlign: 'center' }"
-        :header-cell-style="{ background: '#fafafa', textAlign: 'center' }"
+        :cell-style="{textAlign: 'center'}"
+        :header-cell-style="{background: '#fafafa', textAlign: 'center'}"
       >
-        <el-table-column label="用户名" width="200">
+        <el-table-column label="分类编码" width="200">
           <template slot-scope="scope">
-            <span style="margin-left: 10px">{{ scope.row.username }}</span>
+            <span style="margin-left: 10px">{{ scope.row.categoryId }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="密码" width="200">
+        <el-table-column label="分类名称" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.password }}</span>
+            <span>{{ scope.row.categoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="性别" width="200">
+        <el-table-column label="描述" width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.sex }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="手机号" width="200">
-          <template slot-scope="scope">
-            <span>{{ scope.row.phone }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="人员类型" width="200">
-          <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.usertype }}</el-tag>
+            <span>{{ scope.row.description }}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
-            >
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="paginatioin">
-        <el-pagination background layout="prev, pager, next" :total="1000">
-        </el-pagination>
+        <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
       </div>
     </div>
 
     <!-- 弹出模态框 -->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleCloseDialog"
-    >
-      <el-form ref="addForm" :model="addForm" label-width="80px">
-        <el-form-item label="姓名:">
-          <el-input v-model="addForm.name"></el-input>
+    <el-dialog title="添加物资" :visible.sync="dialogVisible" width="30%" :before-close="handleCloseDialog">
+      <el-form ref="addForm" :model="addForm" label-width="auto" :rules="categoryRules">
+        <el-form-item label="分类编码:" prop="categoryId">
+          <el-input size="mini" v-model="addForm.categoryId"></el-input>
+        </el-form-item>
+        <el-form-item label="分类名称:" prop="categoryName">
+          <el-input size="mini" v-model="addForm.categoryName"></el-input>
+        </el-form-item>
+         <el-form-item label="描述:" prop="description">
+          <el-input  v-model="addForm.description"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="handleSubmit('addForm')">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -107,36 +65,38 @@ export default {
     return {
       dialogVisible: false,
       addForm: {},
-      tableData: [
+      categories: [
         {
-          username: "yo1",
-          password: "111",
-          sex: "女",
-          phone: 1398939384,
-          usertype: "管理员"
+          categoryId: "01",
+          categoryName: "消毒水",
+          description: "这是一个消毒水"
         },
         {
-          username: "yo1",
-          password: "111",
-          sex: "女",
-          phone: 1398939384,
-          usertype: "管理员"
+          categoryId: "02",
+          categoryName: "消毒水",
+          description: "这是一个消毒水"
         },
         {
-          username: "yo1",
-          password: "111",
-          sex: "女",
-          phone: 1398939384,
-          usertype: "管理员"
+          categoryId: "03",
+          categoryName: "消毒水",
+          description: "这是一个消毒水"
         },
         {
-          username: "yo1",
-          password: "111",
-          sex: "女",
-          phone: 1398939384,
-          usertype: "管理员"
+          categoryId: "04",
+          categoryName: "消毒水",
+          description: "这是一个消毒水"
+        },
+        {
+          categoryId: "05",
+          categoryName: "消毒水",
+          description: "这是一个消毒水"
         }
-      ]
+      ],
+      categoryRules: {
+        categoryId: {required: true, message: "请填写物资分类编码"},
+        categoryName: {required: true, message: "请填写物资分类名称"},
+        description: {required: true, message: "请填写物资分类的描述信息"},
+      },
     };
   },
   methods: {
@@ -146,13 +106,30 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
-    addUser() {
+    addCategory() {
       this.dialogVisible = true;
-      // console.log("添加人员")
+      
     },
     handleCloseDialog() {
       this.dialogVisible = false;
-    }
+    },
+    // 添加物资分类
+    handleSubmit(form) {
+      this.$refs[form].validate(valid => {
+        if (!valid) {
+          this.$message.error('请仔细查看提交信息是否正确！');
+          return
+        }
+        this.$message({
+          message: '提交成功！',
+          type: 'success'
+        });
+        this.dialogVisible = false
+      })
+      // this.$refs[form].validate(valid => {
+      //   console.log(valid)
+      // })
+    },
   }
 };
 </script>
